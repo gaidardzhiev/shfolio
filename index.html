@@ -50,7 +50,7 @@ const FS={
       grep:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:22528,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# oldbox grep — pattern matching'},
       ps:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:14336,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# oldbox ps — process status'},
       file:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:11264,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# oldbox file — determine file type'},
-      bf:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:28672,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# bf — brainfuck interpreter\n# usage: bf <file.bf> [input]\n# emits raw x86-64 ELF via bfelfx64 backend'},
+      bf:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:28672,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# bf — brainfuck interpreter\n# usage: bf <file.bf> [input]\n# runs BF source against the fake filesystem'},
       uname:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:6144,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# oldbox uname'},
       whoami:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# oldbox whoami'},
       id:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:5120,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# oldbox id'},
@@ -61,17 +61,17 @@ const FS={
       help:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:01',content:'#!/bin/sh\n# help — list available commands'},
     }},
     boot:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-      'cell_os.elf':{type:'x',perm:'-rwxr-xr-x',own:'root root',size:2097152,mtime:'Jan  1 00:00',content:'ELF64 — cell_os microkernel\narch:   x86-64 / arm64\nstage:  BIOS stage1 → stage2 → long mode handoff\nproof:  #E0–#E7 deterministic chain on every boot\nhash:   sha256:e3b0c44298fc1c149afb4c8996fb92427ae41e4649b934ca495991b7852b855'},
+      'cell_os.elf':{type:'x',perm:'-rwxr-xr-x',own:'root root',size:2097152,mtime:'Jan  1 00:00',content:'ELF64 — cell_os microkernel\narch:   x86-64 / arm64\nstage:  BIOS stage1 \u2192 stage2 \u2192 long mode handoff\nproof:  #E0\u2013#E10 deterministic chain on every boot\nhash:   sha256:e3b0c44298fc1c149afb4c8996fb92427ae41e4649b934ca495991b7852b855'},
       'grub.cfg':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'set timeout=0\nset default=0\nmenuentry "CellOS 0.1.0-proof" {\n  multiboot2 /boot/cell_os.elf\n  boot\n}'},
-      'MANIFEST':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# cellOS MANIFEST — reproducible build\nSOURCE_DATE_EPOCH=1700000000\nphenotype_hash=sha256:4d7e9f2a1b8c3e6f0a2d5b9c8e1f4a7d\nkernel=cell_os.elf\nstage1=boot/stage1.bin\nstage2=boot/stage2.bin\nstatus=CLEAN'},
+      'MANIFEST':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# cellOS MANIFEST \u2014 reproducible build\nSOURCE_DATE_EPOCH=1700000000\nphenotype_hash=sha256:4d7e9f2a1b8c3e6f0a2d5b9c8e1f4a7d\nkernel=cell_os.elf\nstage1=boot/stage1.bin\nstage2=boot/stage2.bin\nstatus=CLEAN'},
     }},
     etc:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-      passwd:{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'root:x:0:0:root:/root:/bin/sh\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n# there is no /usr/sbin here. there is no safety net.\n# trust nothing. verify everything.\n# — cell_os security model'},
+      passwd:{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'root:x:0:0:root:/root:/bin/sh\nnobody:x:65534:65534:nobody:/nonexistent:/usr/sbin/nologin\n# there is no /usr/sbin here. there is no safety net.\n# trust nothing. verify everything.\n# \u2014 cell_os security model'},
       shadow:{type:'f',perm:'-rw-------',own:'root root',size:128,mtime:'Jan  1 00:00',content:'root:$6$cellOS$proofchain_verified_no_password_needed:19000:0:99999:7:::'},
       hostname:{type:'f',perm:'-rw-r--r--',own:'root root',size:8,mtime:'Jan  1 00:00',content:'cellOS'},
-      'os-release':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'NAME="CellOS"\nVERSION="0.1.0-proof"\nID=cellos\nID_LIKE=linux\nPRETTY_NAME="CellOS 0.1.0-proof"\nBUILD_TYPE=reproducible\nPROOF_CHAIN=#E7\nHOME_URL=https://github.com/gaidardzhiev'},
+      'os-release':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'NAME="CellOS"\nVERSION="0.1.0-proof"\nID=cellos\nID_LIKE=linux\nPRETTY_NAME="CellOS 0.1.0-proof"\nBUILD_TYPE=reproducible\nPROOF_CHAIN=#E10\nHOME_URL=https://github.com/gaidardzhiev'},
       fstab:{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'# <device>  <mount>  <type>  <options>  <dump>  <pass>\n/dev/sda1   /        ext4    ro,errors=remount-ro  0  1\ntmpfs       /tmp     tmpfs   defaults              0  0\nproc        /proc    proc    defaults              0  0'},
-      'proof.conf':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# cell_os proof chain configuration\nCHAIN_DEPTH=7\nALGO=sha256\nVERIFY_ON_BOOT=true\nHALT_ON_FAILURE=true\nEMIT_PHENOTYPE=true\nSOURCE_DATE_EPOCH_ENFORCE=true'},
+      'proof.conf':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# cell_os proof chain configuration\nCHAIN_DEPTH=10\nALGO=sha256\nVERIFY_ON_BOOT=true\nHALT_ON_FAILURE=true\nEMIT_PHENOTYPE=true\nSOURCE_DATE_EPOCH_ENFORCE=true'},
     }},
     proc:{type:'d',perm:'dr-xr-xr-x',own:'root root',size:0,mtime:'Jan  1 00:00',content:{
       '1':{type:'d',perm:'dr-xr-xr-x',own:'root root',size:0,mtime:'Jan  1 00:00',content:{
@@ -80,126 +80,153 @@ const FS={
       }},
       cpuinfo:{type:'f',perm:'-r--r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:`processor\t: 0\nvendor_id\t: cellOS\nmodel name\t: CellOS proof-core\narch\t\t: ${ARCH}\ncores\t\t: ${CORES}\ncache size\t: verified\nflags\t\t: proof_chain organelle_subsystem qos_token_bucket`},
       meminfo:{type:'f',perm:'-r--r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'MemTotal:       262144 kB\nMemFree:        131072 kB\nMemAvailable:   196608 kB\nBuffers:         16384 kB\nCached:          32768 kB\nSwapTotal:           0 kB\nSwapFree:            0 kB'},
-      version:{type:'f',perm:'-r--r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:`Linux version CellOS 0.1.0-proof #E7 SMP ${NOW.toDateString()} (root@cellOS)`},
+      version:{type:'f',perm:'-r--r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:`Linux version CellOS 0.1.0-proof #E10 SMP ${NOW.toDateString()} (root@cellOS)`},
     }},
     dev:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
       null:{type:'f',perm:'crw-rw-rw-',own:'root root',size:0,mtime:'Jan  1 00:00',content:''},
       zero:{type:'f',perm:'crw-rw-rw-',own:'root root',size:0,mtime:'Jan  1 00:00',content:''},
-      random:{type:'f',perm:'crw-rw-rw-',own:'root root',size:0,mtime:'Jan  1 00:00',content:'# hardware entropy via RDRAND — NIST SP 800-90A\n# see: /home/root/projects/tools/prand/'},
+      random:{type:'f',perm:'crw-rw-rw-',own:'root root',size:0,mtime:'Jan  1 00:00',content:'# hardware entropy via RDRAND \u2014 NIST SP 800-90A\n# see: /root/src/prand/'},
       urandom:{type:'l',perm:'lrwxrwxrwx',own:'root root',size:7,mtime:'Jan  1 00:00',link:'/dev/random',content:''},
       tty1:{type:'f',perm:'crw--w----',own:'root root',size:0,mtime:'Jan  1 00:00',content:'# this terminal. you are here.'},
     }},
     root:{type:'d',perm:'drwx------',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-      '.bashrc':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',hidden:true,content:'# .bashrc — root shell config\nexport PS1="root@cellOS:\\w# "\nexport PATH=/bin:/usr/bin\nexport EDITOR=vi\nalias ll="ls -la"\nalias grep="grep --color=auto"'},
-      '.proof_history':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',hidden:true,content:'# proof chain verification history\n2024-01-01 00:00:00 #E0 OK sha256:4d7e...\n2024-01-01 00:00:01 #E1 OK sha256:9f2a...\n2024-01-01 00:00:02 #E2 OK sha256:1b8c...\n2024-01-01 00:00:03 #E3 OK sha256:3e6f...\n2024-01-01 00:00:04 #E4 OK sha256:0a2d...\n2024-01-01 00:00:05 #E5 OK sha256:5b9c...\n2024-01-01 00:00:06 #E6 OK sha256:8e1f...\n2024-01-01 00:00:07 #E7 OK sha256:4a7d... VERIFIED'},
+      '.bashrc':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',hidden:true,content:'# .bashrc \u2014 root shell config\nexport PS1="root@cellOS:\\w# "\nexport PATH=/bin:/usr/bin\nexport EDITOR=vi\nalias ll="ls -la"\nalias grep="grep --color=auto"'},
+      '.proof_history':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',hidden:true,content:'# proof chain verification history\n2024-01-01 00:00:00 #E0  OK sha256:4d7e...\n2024-01-01 00:00:01 #E1  OK sha256:9f2a...\n2024-01-01 00:00:02 #E2  OK sha256:1b8c...\n2024-01-01 00:00:03 #E3  OK sha256:3e6f...\n2024-01-01 00:00:04 #E4  OK sha256:0a2d...\n2024-01-01 00:00:05 #E5  OK sha256:5b9c...\n2024-01-01 00:00:06 #E6  OK sha256:8e1f...\n2024-01-01 00:00:07 #E7  OK sha256:4a7d...\n2024-01-01 00:00:08 #E8  OK sha256:2e9b...\n2024-01-01 00:00:09 #E9  OK sha256:7c3d...\n2024-01-01 00:00:10 #E10 OK sha256:1f6a... VERIFIED'},
       '.secrets':{type:'d',perm:'drwx------',own:'root root',size:4096,mtime:'Jan  1 00:00',hidden:true,content:{
-        'README':{type:'f',perm:'-rw-------',own:'root root',size:256,mtime:'Jan  1 00:00',content:'you found it.\n\nthere is no prize. the prize was reading this far.\n\nif you know what crt0trust does, you already understand\nwhy there is no safe software. only verified software.\n\n— ivan'},
-        'thompson.txt':{type:'f',perm:'-rw-------',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'"You can\'t trust code that you did not totally create yourself."\n— Ken Thompson, Reflections on Trusting Trust, 1984\n\nthis is not paranoia. this is engineering.\n\ncrt0trust embeds a reverse shell in ARMv8l crt0 startup assembly.\nit executes before main().\nstrace confirms payload execution before your program runs.\nyou will never see it coming unless you read every byte.\n\nsee: /home/root/projects/security/crt0trust/'},
-        'rop_notes.txt':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',content:'ARM32 ROP chain — stack buffer overflow → arbitrary code execution\nsteps:\n  1. analyze overflow via GDB\n  2. gadget discovery: ropper\n  3. calculate stack frame offsets\n  4. construct chain\n  5. execute\n\n"understanding attacks is the only honest form of defense."'},
+        'README':{type:'f',perm:'-rw-------',own:'root root',size:256,mtime:'Jan  1 00:00',content:'you found it.\n\nthere is no prize. the prize was reading this far.\n\nif you know what crt0trust does, you already understand\nwhy there is no safe software. only verified software.\n\n\u2014 ivan'},
+        'thompson.txt':{type:'f',perm:'-rw-------',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'"You can\'t trust code that you did not totally create yourself."\n\u2014 Ken Thompson, Reflections on Trusting Trust, 1984\n\nthis is not paranoia. this is engineering.\n\ncrt0trust embeds a reverse shell in ARMv8l crt0 startup assembly.\nit executes before main().\nstrace confirms payload execution before your program runs.\nyou will never see it coming unless you read every byte.\n\nsee: /root/src/crt0trust/'},
+        'rop_notes.txt':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',content:'ARM32 ROP chain \u2014 stack buffer overflow \u2192 arbitrary code execution\nenv: Proot + Termux on Android\n\nsteps:\n  1. analyze overflow via GDB\n  2. gadget discovery: ropper\n  3. calculate stack frame offsets\n  4. construct chain\n  5. execute\n\n"understanding attacks is the only honest form of defense."'},
+        'suborn.txt':{type:'f',perm:'-rw-------',own:'root root',size:512,mtime:'Jan  1 00:00',content:'suborn \u2014 4.2KB Coreboot firmware implant\n\nexecutes in Coreboot ramstage at Ring -2 equivalent\nsurvives complete OS replacement\nnative TCP/IP stack with TLS 1.3\npolls hardware events: USB insert, network SYN, RTC alarm\ndispatches remote LLM commands via HTTPS/JSON-RPC\n32 hardcoded primitives: complete system domination\ninvisible to Ring 0 supervisors and endpoint detection tools\n\nthis is in .secrets for a reason.'},
       }},
       books:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-        'malloc_to_godel.txt':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'From malloc() to Gödel: Building a Programming Language at the Limits of Computation\n═══════════════════════════════════════════════════════════════════════════════════\n\nA complete programming language interpreter built in C.\nEvery line visible. Every design decision explicit.\n\nPart I — The Machine\n  chapter 1: malloc() — the first allocation\n  chapter 2: lexer — turning source into tokens\n  chapter 3: recursive descent — parsing without magic\n  chapter 4: environments — how names find their values\n  chapter 5: closures — functions that remember\n\nPart II — The Limits\n  chapter 6: the halting problem — what no program can decide\n  chapter 7: Gödel\'s incompleteness — what no system can prove\n  chapter 8: diagonalization — Cantor, Turing, Church, one argument\n  chapter 9: the boundary — reachable from a single malloc()\n\nThe boundary of what any machine can compute turns out to be\nreachable from a single malloc() call and a recursive descent parser.\n\nsee: /home/root/projects/languages/slug/'},
-        'cell_os_book.txt':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'Cell OS: An Operating Organism\n══════════════════════════════\nProof driven OS design. Architecture instead of authority.\nOrganisms instead of systems.\n\nA new architectural model where software behaves like life:\nborn, verified, expressed, repaired, and constrained\nby its own structure.\n\nBlending OS design, cryptographic verification, and biological\nmetaphor, the book presents a radical alternative to implicit trust:\nreplacing privilege with proof at every stage of a system\'s existence.\n\nKey concepts:\n  organelle subsystem — mitochondria / golgi / lysosome / peroxisome\n  proof chain         — #E0 through #E7, verified on every boot\n  phenotype hash      — deterministic identity of the running system\n  dual strand updater — atomic update with rollback\n  QoS token bucket    — resource fairness without a scheduler\n  channel graph       — structured IPC without shared memory\n\nsee: /home/root/projects/kernel/cell_os/'},
+        'malloc_to_godel.txt':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'From malloc() to G\u00f6del: Building a Programming Language at the Limits of Computation\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nA complete programming language interpreter built in C.\nEvery line visible. Every design decision explicit.\n\nPart I \u2014 The Machine\n  chapter 1: malloc() \u2014 the first allocation\n  chapter 2: lexer \u2014 turning source into tokens\n  chapter 3: recursive descent \u2014 parsing without magic\n  chapter 4: environments \u2014 how names find their values\n  chapter 5: closures \u2014 functions that remember\n\nPart II \u2014 The Limits\n  chapter 6: the halting problem \u2014 what no program can decide\n  chapter 7: G\u00f6del\'s incompleteness \u2014 what no system can prove\n  chapter 8: diagonalization \u2014 Cantor, Turing, Church, one argument\n  chapter 9: the boundary \u2014 reachable from a single malloc()\n\nThe boundary of what any machine can compute turns out to be\nreachable from a single malloc() call and a recursive descent parser.\n\namazon: https://www.amazon.com/dp/B0F6WLLGWP\ngithub: https://github.com/gaidardzhiev/slug'},
+        'cell_os_book.txt':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'Cell OS: An Operating Organism\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\nProof driven OS design. Architecture instead of authority.\nOrganisms instead of systems.\n\nA new architectural model where software behaves like life:\nborn, verified, expressed, repaired, and constrained\nby its own structure.\n\nBlending OS design, cryptographic verification, and biological\nmetaphor, the book presents a radical alternative to implicit trust:\nreplacing privilege with proof at every stage.\n\nKey concepts:\n  organelle subsystem \u2014 mitochondria / golgi / lysosome / peroxisome\n  proof chain         \u2014 #E0 through #E10, verified on every boot\n  phenotype hash      \u2014 deterministic identity of the running system\n  dual strand updater \u2014 atomic update with rollback\n  QoS token bucket    \u2014 resource fairness without a scheduler\n  channel graph       \u2014 structured IPC without shared memory\n\namazon: https://www.amazon.com/dp/B0GFD4PVH2\ngithub: https://github.com/gaidardzhiev/cell_os'},
       }},
-      projects:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-        kernel:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          cell_os:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'cell_os — boot to proof microkernel\n═══════════════════════════════════\nlang:   C, ASM, NASM, Make, Python, Shell\ntarget: x86-64 (PC BIOS) + arm64 (QEMU virt)\n\nsubsystems:\n  BIOS stage loaders    — 16-bit real mode → 32-bit protected → 64-bit long\n  organelle subsystem   — mitochondria / golgi / lysosome / peroxisome\n  channel graph         — structured IPC, no shared memory\n  QoS token bucket      — per-channel rate limiting\n  IRQ bridge            — hardware interrupt routing\n  dual strand updater   — atomic update + rollback\n  parcel codec          — typed message framing\n  observability feed    — ring-buffered event stream\n  proof chain           — deterministic #E0–#E7 on every boot\n\nreproducible:\n  SOURCE_DATE_EPOCH enforced\n  MANIFEST verified\n  phenotype hash stable across builds\n\ngithub: https://github.com/gaidardzhiev/cell_os'},
-            'Makefile':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# cell_os Makefile\nCC=gcc\nAS=nasm\nARCH?=x86_64\nSOURCE_DATE_EPOCH?=$(shell date +%s)\n\nall: kernel proof\nkernel: boot/stage1.bin boot/stage2.bin kernel/main.o\nproof: kernel\n\t./tools/verify_chain.py #E0 #E7\nclean:\n\trm -rf build/'},
-          }},
+      src:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+        cell_os:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:4096,mtime:'Jan  1 00:00',content:'# cell_os\n\nCell OS is a boot-to-proof microkernel that exercises its own BIOS-stage loaders,\nhandoff ABI, and kernel genes on x86_64 (PC BIOS) and arm64 (QEMU virt).\nIt emits a deterministic chain of #E0\u2026#E10 log markers, proving the substrate\nclassification, channel graph, organelles, IRQ bridge, update path, observability\nfeed, and release manifest. The same source tree builds the boot media, phenotypes,\nhost tools, and reproducible release tarballs.\n\nlang:   C, ASM, NASM, Make, Python, Shell\ntarget: x86-64 (PC BIOS) + arm64 (QEMU virt)\n\nsubsystems:\n  BIOS stage loaders    \u2014 16-bit real mode \u2192 32-bit protected \u2192 64-bit long mode\n  organelle subsystem   \u2014 mitochondria / golgi / lysosome / peroxisome\n  channel graph         \u2014 structured IPC, no shared memory\n  QoS token bucket      \u2014 per-channel rate limiting\n  IRQ bridge            \u2014 hardware interrupt routing\n  dual strand updater   \u2014 atomic update + rollback\n  parcel codec          \u2014 typed message framing\n  observability feed    \u2014 ring-buffered event stream\n  proof chain           \u2014 deterministic #E0\u2013#E10 on every boot\n\nreproducible:\n  SOURCE_DATE_EPOCH enforced\n  MANIFEST verified\n  phenotype hash stable across builds\n\namazon: https://www.amazon.com/dp/B0GFD4PVH2\ngithub: https://github.com/gaidardzhiev/cell_os'},
         }},
-        languages:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          slug:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1536,mtime:'Jan  1 00:00',content:'slug — Turing complete interpreted language in C\n════════════════════════════════════════════════\nlang:   C, Make\n\nfeatures:\n  hand-written lexer\n  recursive descent parser\n  environment chain (lexical scoping)\n  tree-walking interpreter\n  first-class functions\n  closures\n  higher-order functions\n\nships with:\n  church_numerals.slug  — lambda calculus in slug\n  ackermann.slug        — Ackermann function\n  godel.slug            — Gödel numbering\n  halting.slug          — halting problem via diagonalization\n  turing.slug           — general Turing machine simulator\n  completeness.slug     — proof of Turing completeness\n\ngithub: https://github.com/gaidardzhiev/slug'},
-            'church_numerals.slug':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# Church numerals in slug\n# zero = λf.λx.x\n# succ = λn.λf.λx.f(n f x)\nlet zero = fn(f) { fn(x) { x } };\nlet succ = fn(n) { fn(f) { fn(x) { f(n(f)(x)) } } };\nlet add  = fn(m) { fn(n) { fn(f) { fn(x) { m(f)(n(f)(x)) } } } };\nlet one  = succ(zero);\nlet two  = succ(one);\nlet three = add(one)(two);'},
-          }},
-          snail:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'snail — obfuscated C interpreter\n════════════════════════════════\nlang:   C, Make\n\nslug\'s full feature set compressed into:\n  macro indirection\n  self-referential data encoding\n  28-entry perfect hash table for lexing\n  recursive descent in ~400 lines of dense C\n\nproduced as an obfuscated C entry.\nreads as noise. runs as a language.\n\ngithub: https://github.com/gaidardzhiev/snail'},
-          }},
+        slug:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:4096,mtime:'Jan  1 00:00',content:'# slug\n\nSlug is a minimalist, interpreted programming language written in C.\nFeatures a lexical analyzer, parser, environment management, and an interpreter\ncapable of evaluating expressions and statements including control flow,\nfunctions, and recursion.\n\nlang:   C, Make\n\nfeatures:\n  hand-written lexer\n  recursive descent parser\n  environment chain (lexical scoping)\n  tree-walking interpreter\n  first-class functions\n  closures\n  higher-order functions\n\nships with:\n  church_numerals.slg   \u2014 lambda calculus in slug\n  ackermann.slg         \u2014 Ackermann function\n  godel.slg             \u2014 G\u00f6del numbering + diagonalization\n  halting_paradox.slg   \u2014 halting problem via diagonalization\n  pure_diag.slg         \u2014 stack overflow as proof of undecidability\n  palindrome_checker.slg\u2014 general Turing machine simulator\n  collatz.slg           \u2014 Collatz conjecture counter\n  truth_table.slg       \u2014 De Morgan\'s law verification\n\nThe boundary of what Slug can express turns out to be precisely\nthe boundary between numbers and text.\n\namazon: https://www.amazon.com/dp/B0F6WLLGWP\ngithub: https://github.com/gaidardzhiev/slug'},
+          'church_numerals.slg':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# Church numerals in slug\nvar zero  = func(f, x) => x;\nvar one   = func(f, x) => f(x);\nvar two   = func(f, x) => f(f(x));\nvar succ  = func(n, f, x) => f(n(f, x));\nvar add   = func(m, n, f, x) => n(f, m(f, x));\nvar to_int = func(n) => n(func(x) => x + 1, 0);\nvar four  = func(f, x) => succ(three, f, x);\noutn(to_int(zero));\noutn(to_int(one));\noutn(to_int(four));'},
+          'halting_paradox.slg':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# halting paradox in slug\nvar halts = func(prog, input) => { false; };\nvar diagonal = func(f) => {\n    if (halts(f, f)) { diagonal(f); }\n    else { 0; }\n};\nvar paradox = func(haltFunc) => { diagonal(haltFunc); };\nvar result = paradox(diagonal);\noutn(result);'},
         }},
-        compilers:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          bfelfx64:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'bfelfx64 — Brainfuck → x86-64 ELF compiler\n══════════════════════════════════════════\nlang:   C, Make\n\nreads BF source one character at a time\nemits raw x86-64 machine instructions\nloops via jump offset patching on a manual stack\nallocates 30,000 byte tape in .bss\nwrites a fully valid ELF64 executable\nno assembler. no libc. no linker.\n\ngithub: https://github.com/gaidardzhiev/bfelfx64'},
-            'hello.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:128,mtime:'Jan  1 00:00',content:'++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.'},
-            'echo.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:8,mtime:'Jan  1 00:00',content:',[.,]'},
-            'fib.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'>++++++++++>+>+[[+++++[>++++++++<-]>.<++++++[>--------<-]+<<<]>.>>[[-]<[>+<-]>>[<<+>+>-]<[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>[-]>+>+<<<-[>+<-]]]]]]]]]]]+>>>]<<<]'},
-            'cat.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:8,mtime:'Jan  1 00:00',content:',[.,]'},
-            'rot13.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'-,+[-[>>++++[>++++++++<-]<+<-[>+>[->]<<-]<]>>[<-[>+<-]+>++>>>]<<<<<->->]>>[>[->]<<+>[<->-]>>]<<[>>+<-[>-]>[>,+]<<]>,]'},
-          }},
-          sh2elf:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'sh2elf / elfsh — shell → ELF64 compiler\n═══════════════════════════════════════\nlang:   C, Make\n\ntranslates shell scripts into standalone ELF64 executables\nemits raw x86-64 machine code\nno external assembler. no linker.\n\nhandles:\n  pipelines\n  redirections\n  conditionals\n  built-in commands\n  string pooling\n  relocation patching\n\ngithub: https://github.com/gaidardzhiev/sh2elf'},
-          }},
+        snail:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# snail\n\nSlug\'s full feature set compressed into extreme C preprocessor abuse.\nProduced as an obfuscated C entry.\n\nlang:   C, Make\n\n  28-entry perfect hash table for lexing\n  recursive descent in ~400 lines of dense C\n  macro indirection and self-referential data encoding\n  full closures, first-class functions, lexical scoping\n\nReads as noise. Runs as a language.\n\ngithub: https://github.com/gaidardzhiev/snail'},
         }},
-        security:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          linker0trust:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'linker0trust — deliberately malicious ELF64 linker\n══════════════════════════════════════════════════\nlang:   C, Make\n\ninjects x86-64 shellcode into binaries at link time\nappends a new loadable PT_LOAD segment\nhijacks the entry point to shellcode\nstub branch returns to original main() after payload\n\ndemonstrates supply chain attacks at the toolchain level\nand the implicit trust placed in linkers.\n\n"you trusted your linker. you shouldn\'t have."\n\ngithub: https://github.com/gaidardzhiev/linker0trust'},
-          }},
-          crt0trust:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'crt0trust — Ken Thompson\'s Trusting Trust, implemented\n══════════════════════════════════════════════════════\nlang:   C, ASM, Make, Shell\n\nreverse shell payload embedded in crt0 ARMv8l startup assembly\nexecutes before main()\nstrace-based verification script confirms payload execution\n\n"You can\'t trust code that you did not totally create yourself."\n— Ken Thompson, 1984\n\nthis is that code.\n\ngithub: https://github.com/gaidardzhiev/crt0trust'},
-          }},
-          elfmutator:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'elfmutator — ARM32 ELF binary injector\n══════════════════════════════════════\nlang:   C, ASM, Make\n\nappends shellcode payload as new loadable segment\nredirects entry point to payload\npatches stub branch to return to original main()\nbinary executes injected code invisibly before host program\n\ngithub: https://github.com/gaidardzhiev/elfmutator'},
-          }},
-          rop:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'rop — ARM32 return oriented programming research\n════════════════════════════════════════════════\nlang:   C, ASM, Shell\n\nanalyzes stack buffer overflow via GDB\ngadget discovery with ropper\ncalculates stack frame offsets\nconstructs full ROP chain\nachieves arbitrary code execution on ARM32 Linux\n\ngithub: https://github.com/gaidardzhiev/rop'},
-          }},
-          isol8r:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'isol8r — minimal Linux namespace jail\n════════════════════════════════════\nlang:   C, Make, Shell\n\nimplements:\n  PID / mount / network / IPC / UTS / user namespace isolation\n  pivot_root\n  capability dropping\n  UID/GID remapping\n  seccomp syscall filtering\n  signal forwarding\n  resource limits (cgroups)\n\ncomparable in scope to a lightweight container runtime.\n\ngithub: https://github.com/gaidardzhiev/isol8r'},
-          }},
+        bfelfx64:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# bfelfx64\n\nBrainfuck \u2192 x86-64 ELF compiler written in C.\nReads BF source one character at a time, emits raw x86-64 machine instructions.\nNo assembler. No libc. No linker.\n\nlang:   C, Make\n\n  loops via jump offset patching on a manual stack\n  30,000 byte tape in .bss\n  fully valid ELF64 executable\n  Linux syscalls for I/O and exit\n\ngithub: https://github.com/gaidardzhiev/bfelfx64'},
+          'hello.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:128,mtime:'Jan  1 00:00',content:'++++++++++[>+++++++>++++++++++>+++>+<<<<-]>++.>+.+++++++..+++.>++.<<+++++++++++++++.>.+++.------.--------.>+.>.'},
+          'echo.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:8,mtime:'Jan  1 00:00',content:',[.,]'},
+          'fib.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'>++++++++++>+>+[[+++++[>++++++++<-]>.<++++++[>--------<-]+<<<]>.>>[[-]<[>+<-]>>[<<+>+>-]<[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>+<-[>[-]>+>+<<<-[>+<-]]]]]]]]]]]+>>>]<<<]'},
+          'rot13.bf':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'-,+[-[>>++++[>++++++++<-]<+<-[>+>[->]<<-]<]>>[<-[>+<-]+>++>>>]<<<<<->->]>>[>[->]<<+>[<->-]>>]<<[>>+<-[>-]>[>,+]<<]>,]'},
         }},
-        systems:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          libc:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'libc — from scratch, ARMv8 AArch32 hard-float\n═════════════════════════════════════════════\nlang:   C, ASM, Make\n\nimplements:\n  printf / vprintf (%s %c %p %d)\n  sbrk-based allocator\n  syscall stubs via SVC 0\n  crt0 startup code\n  linker script\n\ntarget: ARMv8 AArch32 hard-float ABI\nno dependencies. no host libc.\n\ngithub: https://github.com/gaidardzhiev/libc'},
-          }},
-          tortoise:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'tortoise — 16-bit CPU emulator + assembler\n══════════════════════════════════════════\nlang:   C, ASM, Make\n\ncustom instruction set\nfetch-decode-execute pipeline\n8 general purpose registers\n64KB memory\nsubroutine call/return\nsimulated I/O\n\ncompanion assembler:\n  reads human-readable mnemonics\n  emits binary machine code\n  complete source-to-execution flow\n\ngithub: https://github.com/gaidardzhiev/tortoise'},
-          }},
+        sh2elf:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# sh2elf\n\nCompiles shell scripts into standalone ELF64 executables for Linux x86_64.\nEmits raw x86-64 machine code. No external assembler. No linker.\n\nlang:   C, Make\n\n  tokenizer, recursive descent parser, code generator\n  handles: pipelines, redirections, conditionals, built-ins\n  string pooling and relocation patching\n  wraps result in a minimal ELF64 binary\n\nusage:\n  ./sh2elf script.sh -o elf.out\n  ./elf.out\n\ngithub: https://github.com/gaidardzhiev/sh2elf'},
         }},
-        tools:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          oldbox:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'oldbox — 45+ *nix utilities reimplemented\n════════════════════════════════════════\nlang:   C, Make, Shell\n\nindividual standalone static binaries\nincludes: ls grep ps file readelf systrace mem lsblk bundle\n         cat echo pwd id uname whoami wc head tail sort\n         cut tr sed find xargs env date sleep kill\n         chmod chown cp mv rm mkdir rmdir ln stat\n         df du mount umount dmesg hostname\n         and more...\n\ngithub: https://github.com/gaidardzhiev/oldbox'},
-          }},
-          diff:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'diff — hardware accelerated diff, ARMv8 32-bit\n══════════════════════════════════════════════\nlang:   C, Make\n\nARMv8 CRC32 hardware instructions to hash lines\nNEON SIMD intrinsics — 4-wide parallel hash comparison\nfallback to vectorized byte comparison\noutputs GNU unified diff format\n\ngithub: https://github.com/gaidardzhiev/diff'},
-          }},
-          duet:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'duet — dual pane terminal file manager\n══════════════════════════════════════\nlang:   C, Make\n\nimplemented via extreme C preprocessor abuse\nleft pane: filesystem navigation\nright pane: live preview\n  directory listing\n  text content\n  sanitized binary dump for ELF executables\n\ngithub: https://github.com/gaidardzhiev/duet'},
-          }},
-          prand:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'prand / getprand — hardware random string generators\n════════════════════════════════════════════════════\nlang:   C, ASM\n\nprand:    x86-64 RDRAND CPU instruction\n          hardware entropy from thermal noise\n          NIST SP 800-90A compliant\n\ngetprand: pure ARMv7 assembly\n          getrandom syscall directly\n          no libc dependency\n\ngithub: https://github.com/gaidardzhiev/prand'},
-          }},
-          terminax:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'terminax — minimal X11 terminal emulator\n════════════════════════════════════════\nlang:   C, Xlib, Make\n\nruns shell via pseudoterminal\nline wrapping\ninfinite vertical scrollback\ndynamic window resizing with automatic rewrapping\nkeyboard input forwarding\n\ngithub: https://github.com/gaidardzhiev/terminax'},
-          }},
-          syscalls:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'README':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'syscalls — *nix utilities via raw ARMv8l syscalls\n════════════════════════════════════════════════\nlang:   C, ASM, Make\n\ncat echo sleep pwd id shell and more\nrewritten in C with ARMv8l 32-bit inline assembly\nbypasses libc entirely\ninvokes Linux syscalls directly via svc #0\n\ngithub: https://github.com/gaidardzhiev/syscalls'},
-          }},
+        elfsh:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# elfsh\n\nCompanion to sh2elf. Alternative shell \u2192 ELF64 compiler.\nSame goal, different code generation strategy.\n\nlang:   C, Make\n\ngithub: https://github.com/gaidardzhiev/elfsh'},
         }},
-      }},
-    }},
-    usr:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-      bin:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-        toolbox:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:131072,mtime:'Jan  1 00:00',content:'# toolbox — compact statically linked multi-call binary\n# ships with full musl/GCC/Binutils static toolchain build scripts\n# see: man toolbox'},
-        sbpm:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:65536,mtime:'Jan  1 00:00',content:'#!/bin/sh\n# sbpm — POSIX shell package manager\n# uses only wget + POSIX shell\n# 80+ packages: compilers shells WMs networking microcontroller toolchains'},
-        scb:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:24576,mtime:'Jan  1 00:00',content:'# scb — minimalist build system\n# interprets custom Makefile-like build definitions\n# variable assignments with $(VAR) substitution\n# dependency graphs, recursive build via system()'},
-      }},
-      share:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-        man:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-          man1:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-            'bf.1':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'BF(1)                     CellOS Manual                     BF(1)\n\nNAME\n       bf — brainfuck interpreter\n\nSYNOPSIS\n       bf <file.bf> [input]\n\nDESCRIPTION\n       Executes a Brainfuck program from the fake filesystem.\n       Tape is 30,000 cells, each 8-bit wrapping.\n       EOF on , returns 0.\n\nEXAMPLES\n       bf /home/root/projects/compilers/bfelfx64/hello.bf\n       bf /home/root/projects/compilers/bfelfx64/echo.bf "Hello"\n       bf /home/root/projects/compilers/bfelfx64/rot13.bf "Hello"\n\nSEE ALSO\n       bfelfx64(1), sh(1)\n\nAUTHOR\n       Ivan Gaydardzhiev <1v4n@protonmail.com>'},
-            'cell_os.1':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'CELL_OS(1)                CellOS Manual                CELL_OS(1)\n\nNAME\n       cell_os — boot to proof microkernel\n\nSYNOPSIS\n       qemu-system-x86_64 -kernel boot/cell_os.elf\n\nDESCRIPTION\n       Microkernel targeting x86-64 and arm64.\n       Emits a deterministic #E0–#E7 proof chain on every boot.\n       Organelle subsystem models biological process isolation.\n       Fully reproducible via SOURCE_DATE_EPOCH + MANIFEST.\n\nSEE ALSO\n       isol8r(1), libc(1)\n\nAUTHOR\n       Ivan Gaydardzhiev <1v4n@protonmail.com>'},
-            'sh.1':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'SH(1)                     CellOS Manual                     SH(1)\n\nNAME\n       sh — cellOS command interpreter\n\nSYNOPSIS\n       sh\n\nDESCRIPTION\n       Minimal POSIX-like shell for the cellOS portfolio terminal.\n\nBUILTINS\n       cd, pwd, echo, exit, logout, clear, help\n\nCOMMANDS\n       ls [-la] [path]     list directory\n       cat <file>          print file\n       file <path>         identify type\n       bf <file> [input]   run brainfuck program\n       man <cmd>           show manual\n       uname [-a]          system information\n       whoami              current user\n       id                  user and group ids\n       ps                  running processes\n       readelf <file>      ELF header info\n       history             command history\n\nSEE ALSO\n       bf(1), cell_os(1)\n\nAUTHOR\n       Ivan Gaydardzhiev <1v4n@protonmail.com>'},
-          }},
+        linker0trust:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1536,mtime:'Jan  1 00:00',content:'# linker0trust\n\nDeliberately malicious ELF64 linker written in C.\nExposes the implicit trust placed in the linker toolchain.\n\nlang:   C, Make\n\n  appends a new PT_LOAD segment containing shellcode\n  hijacks the entry point to the payload\n  stub branch returns to original main() after payload runs\n  binary executes injected code invisibly before host program\n\nDemonstrates supply chain attacks at the toolchain level.\n\n"you trusted your linker. you shouldn\'t have."\n\ngithub: https://github.com/gaidardzhiev/linker0trust\n\nDISCLAIMER: educational and research purposes only.'},
+        }},
+        crt0trust:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1536,mtime:'Jan  1 00:00',content:'# crt0trust\n\nKen Thompson\'s Trusting Trust attack, implemented.\nReverse shell payload embedded in crt0 ARMv8l startup assembly.\nExecutes before main(). strace confirms payload execution.\n\nlang:   C, ASM, Make, Shell\n\nThe "Trusting Trust" attack operates at a profoundly low level\nby subverting the startup assembly itself to insert malicious code\nbefore the program begins. The compiler, the linker, and the loader\nare all clean. The attack lives in crt0.\n\n"You can\'t trust code that you did not totally create yourself."\n\u2014 Ken Thompson, 1984\n\ngithub: https://github.com/gaidardzhiev/crt0trust\n\nDISCLAIMER: educational and research purposes only.'},
+        }},
+        elfmutator:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'# elfmutator\n\nARM32 ELF binary injector.\n\nlang:   C, ASM, Make\n\n  appends shellcode payload as new loadable segment\n  redirects entry point to payload\n  patches stub branch to return to original main()\n  binary executes injected code invisibly before host program\n\n"The moral is obvious. You can\'t trust code that you did not\ntotally create yourself." \u2014 Ken Thompson, 1984\n\ngithub: https://github.com/gaidardzhiev/elfmutator\n\nDISCLAIMER: educational and research purposes only.'},
+        }},
+        rop:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'# rop\n\nARM32 Return Oriented Programming exploit PoC.\nStack buffer overflow \u2192 arbitrary code execution on ARM32 Linux.\nEnvironment: Proot + Termux on Android.\n\nlang:   C, ASM, Shell\n\n  vulnerable program: fixed-size buffer, no stack protection, non-PIE\n  analysis: GDB stack frame inspection\n  gadget discovery: ropper\n  chain construction: manual offset calculation\n  execution: arbitrary code via ROP\n\ngithub: https://github.com/gaidardzhiev/rop\n\nDISCLAIMER: educational and research purposes only.'},
+        }},
+        isol8r:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# isol8r\n\nMinimal Linux namespace jail.\n\nlang:   C, Make, Shell\n\n  PID / mount / network / IPC / UTS / user namespace isolation\n  pivot_root\n  capability dropping\n  UID/GID remapping\n  seccomp syscall filtering\n  signal forwarding\n  resource limits (cgroups)\n\nComparable in scope to a lightweight container runtime.\nNo Docker. No runc. Just namespaces and pivot_root.\n\ngithub: https://github.com/gaidardzhiev/isol8r'},
+        }},
+        ring0fuzzer:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'# ring0fuzzer\n\nCPU instruction fuzzer kernel module for x86_64.\nFuzzes raw instructions deep in ring 0.\n\nlang:   C, Make\n\n  generates and executes randomized junk instructions on bare CPU\n  saves and restores every register before/after execution\n  traps #UD (invalid opcode), #GP, #SS, and other faults\n  logs surviving undocumented instructions\n  runs entirely in kernel space \u2014 no user space hand holding\n\nDangerous by design. For controlled environments only.\n\ngithub: https://github.com/gaidardzhiev/ring0fuzzer'},
+        }},
+        libc:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# libc\n\nFrom scratch libc targeting ARMv8 AArch32 hard-float ABI.\n\nlang:   C, ASM, Make\n\n  printf/vprintf: %s %c %p %d %x %u\n  snprintf/vsnprintf: buffer-bounded formatting\n  fprintf/fputs: direct fd writes\n  malloc/calloc/realloc: free-list allocator with mmap support\n  syscall stubs: SVC 0 direct\n  crt0 startup code\n  linker script\n\nNo host libc. No dependencies.\nFreestanding. Linux ARM syscalls only.\n\ngithub: https://github.com/gaidardzhiev/libc'},
+        }},
+        tortoise:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'# tortoise\n\n16-bit CPU emulator with custom ISA and companion assembler.\n\nlang:   C, ASM, Make\n\n  fetch-decode-execute pipeline\n  8 general purpose 16-bit registers (R0\u2013R7)\n  flags register\n  64KB memory\n  subroutine call/return\n  simulated I/O\n\nassembler:\n  reads human-readable mnemonics\n  emits binary machine code\n  complete source-to-execution flow\n\ngithub: https://github.com/gaidardzhiev/tortoise'},
+        }},
+        oldbox:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'# oldbox\n\n45+ *nix utilities as individual standalone static binaries.\nUnlike BusyBox: no symlink dispatching, no argv[0] tricks.\nEach tool is its own binary. Install only what you need.\n\nlang:   C, Make, Shell\n\nincluded: ls grep ps file readelf systrace mem lsblk bundle\n          cat echo pwd id uname whoami wc head tail sort\n          cut tr sed find xargs env date sleep kill\n          chmod chown cp mv rm mkdir rmdir ln stat\n          df du mount umount dmesg hostname tree\n          ascii2hex hexdump xoda magic kmsg cmp\n          strings tee rev sync tty basename bundle\n          oldbox (dispatcher) and more\n\ngithub: https://github.com/gaidardzhiev/oldbox'},
+        }},
+        diff:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# diff\n\nHardware-accelerated diff for ARMv8 32-bit Linux.\n\nlang:   C, Make\n\n  ARMv8 CRC32 hardware instructions to hash lines\n  NEON SIMD intrinsics: 4-wide parallel hash comparison\n  fallback: vectorized byte comparison for collision verification\n  output: GNU unified diff format\n\ngithub: https://github.com/gaidardzhiev/diff'},
+        }},
+        duet:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# duet\n\nMinimalist dual-pane terminal file manager.\nImplemented via extreme C preprocessor abuse and pathological macros.\n\nlang:   C, Make\n\n  left pane: filesystem navigation\n  right pane: live preview\n    \u2014 directory listing\n    \u2014 text content\n    \u2014 sanitized binary dump for ELF executables\n  hjkl/arrows: navigation\n  .: toggle hidden files\n\ngithub: https://github.com/gaidardzhiev/duet'},
+        }},
+        prand:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# prand\n\nHardware random string generator using RDRAND CPU instruction.\nEntropy from thermal noise in CPU silicon.\nNIST SP 800-90A compliant.\n\nlang:   C\n\ngithub: https://github.com/gaidardzhiev/prand'},
+        }},
+        getprand:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# getprand\n\nPure ARMv7 assembly random string generator.\n32-character pseudo-random string via getrandom syscall.\nNo C runtime. No libc. syscall number 384 directly.\n\nlang:   ASM (ARMv7)\n\ngithub: https://github.com/gaidardzhiev/getprand'},
+        }},
+        terminax:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# terminax\n\nMinimal X11 terminal emulator built on Xlib.\n\nlang:   C, Xlib, Make\n\n  runs shell via pseudoterminal\n  line wrapping based on window width\n  infinite vertical scrollback\n  dynamic window resizing with automatic rewrapping\n  keyboard input forwarding\n\ngithub: https://github.com/gaidardzhiev/terminax'},
+        }},
+        syscalls:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# syscalls\n\n*nix utilities via raw ARMv8l 32-bit inline assembly.\nNo libc. No wrappers. Straight kernel calls.\n\nlang:   C, ASM, Make\n\n  cat echo sleep pwd id shell and more\n  ARMv8l 32-bit inline assembly\n  Linux syscalls directly via svc #0\n\ngithub: https://github.com/gaidardzhiev/syscalls'},
+        }},
+        toolbox:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# toolbox\n\nCompact statically linked multi-call binary.\nAll common *nix commands in a single executable.\n\nlang:   C, Make, Shell\n\n  ships with build scripts for full musl/GCC/Binutils static toolchain\n  man page included\n  single binary, no symlink dispatching\n\ngithub: https://github.com/gaidardzhiev/toolbox'},
+        }},
+        sbpm:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:768,mtime:'Jan  1 00:00',content:'# sbpm\n\nPOSIX shell package manager. wget + sh. Nothing else.\n\nlang:   Shell\n\n  native compiler bootstrapping (chicken-and-egg solved)\n  cross-compiler toolchains\n  Linux kernel compilation\n  80+ packages: compilers, shells, WMs, networking, microcontroller toolchains\n\nPackages include: gcc tcc musl busybox bash zsh i3 openbox\n  nmap aircrack-ng strongswan avr-gcc arm-gcc riscv-gcc\n  and many more\n\ngithub: https://github.com/gaidardzhiev/sbpm'},
+        }},
+        scb:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# scb\n\nMinimalist build system in C.\nInterprets a custom Makefile-like build definition file named "builder".\n\nlang:   C, Make, Shell\n\n  variable assignments with $(VAR) substitution\n  build targets with dependency graphs\n  indented command lists\n  recursive build via system()\n\ngithub: https://github.com/gaidardzhiev/scb'},
+        }},
+        tmdv:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# tmdv\n\nTerminal Markdown Viewer written in C.\nRenders Markdown files directly in the terminal.\n\nlang:   C, Make\n\n  headings, lists, blockquotes, code blocks\n  bold, italic, inline code\n  fast and minimal\n\nusage:\n  ./tmdv readme.md\n\ngithub: https://github.com/gaidardzhiev/tmdv'},
+        }},
+        bracify:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# bracify\n\nFixes bare variable expansions in POSIX shell scripts.\n$PATH becomes ${PATH}. $USER becomes ${USER}.\nDoesn\'t touch existing ${var} syntax. Only fixes the broken stuff.\n\nlang:   C, Make\n  musl-gcc static binary\n  no dependencies\n\nusage:\n  bracify script.sh > script-fixed.sh\n\ngithub: https://github.com/gaidardzhiev/bracify'},
+        }},
+        cmdflix:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# cmdflix\n\nLightweight remote control server in C for Netflix on macOS.\nListens on TCP, accepts HTTP GET requests, executes AppleScript.\n\nlang:   C\n\n  play/pause via space keypress injection\n  next episode via JavaScript into Brave browser\n  system volume control\n  activate/launch browser\n\ngithub: https://github.com/gaidardzhiev/cmdflix'},
+        }},
+        shell:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# shell\n\nMinimalist *nix shell interpreter in C.\n\nlang:   C\n\n  interactive command prompt with colorized PS1\n  command tokenization with quoted string support\n  variable expansion ($VAR)\n  pipelines and redirections\n  background job execution (&)\n  built-in commands: cd, exit, export, unset\n\ngithub: https://github.com/gaidardzhiev/shell'},
+        }},
+        shfolio:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:512,mtime:'Jan  1 00:00',content:'# shfolio\n\nA portfolio that is also a shell. A shell that is also a lie.\nA lie that tells the truth.\n\nSingle HTML file. Fake Unix filesystem. Real shell commands.\nCRT phosphor display. systemd boot sequence. BF interpreter.\nNo server. No framework. No build step.\n\ngithub: https://github.com/gaidardzhiev/shfolio'},
+        }},
+        esolangs:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'# esolangs\n\nExperiments with esoteric programming languages.\nBrainfuck, Befunge, and others.\n\ngithub: https://github.com/gaidardzhiev/esolangs'},
+        }},
+        brainfunk:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          'readme.md':{type:'f',perm:'-rw-r--r--',own:'root root',size:256,mtime:'Jan  1 00:00',content:'# brainfunk\n\nBrainfuck interpreter with debugging and memory visualization.\nThe JavaScript toy that started it all.\nSee bfelfx64 for the real thing.\n\ngithub: https://github.com/gaidardzhiev/brainfunk'},
         }},
       }},
     }},
     tmp:{type:'d',perm:'drwxrwxrwx',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
       '.gitkeep':{type:'f',perm:'-rw-r--r--',own:'root root',size:0,mtime:'Jan  1 00:00',hidden:true,content:''},
     }},
+    usr:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+      bin:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+        toolbox:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:131072,mtime:'Jan  1 00:00',content:'# toolbox \u2014 compact statically linked multi-call binary\n# see: /root/src/toolbox/'},
+        sbpm:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:65536,mtime:'Jan  1 00:00',content:'#!/bin/sh\n# sbpm \u2014 POSIX shell package manager\n# see: /root/src/sbpm/'},
+        scb:{type:'x',perm:'-rwxr-xr-x',own:'root root',size:24576,mtime:'Jan  1 00:00',content:'# scb \u2014 minimalist build system\n# see: /root/src/scb/'},
+      }},
+      share:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+        man:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+          man1:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
+            'bf.1':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'BF(1)                     CellOS Manual                     BF(1)\n\nNAME\n       bf \u2014 brainfuck interpreter\n\nSYNOPSIS\n       bf <file.bf> [input]\n\nDESCRIPTION\n       Executes a Brainfuck program from the filesystem.\n       Tape is infinite in both directions, 8-bit wrapping.\n       EOF on , returns 0.\n\nEXAMPLES\n       bf /root/src/bfelfx64/hello.bf\n       bf /root/src/bfelfx64/echo.bf "Hello"\n       bf /root/src/bfelfx64/rot13.bf "Hello"\n       bf /root/src/bfelfx64/fib.bf\n\nSEE ALSO\n       bfelfx64(1), sh(1)\n\nAUTHOR\n       Ivan Gaydardzhiev <github.com/gaidardzhiev>'},
+            'sh.1':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'SH(1)                     CellOS Manual                     SH(1)\n\nNAME\n       sh \u2014 cellOS command interpreter\n\nSYNOPSIS\n       sh\n\nBUILTINS\n       cd, pwd, echo, exit, logout, clear, help\n\nCOMMANDS\n       ls [-la] [path]     list directory\n       cat <file>          print file\n       file <path>         identify type\n       bf <file> [input]   run brainfuck\n       man <cmd>           manual page\n       uname [-a]          system info\n       whoami / id         user info\n       ps                  processes\n       readelf <file>      ELF header\n       history             command history\n\nAUTHOR\n       Ivan Gaydardzhiev <github.com/gaidardzhiev>'},
+            'cell_os.1':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'CELL_OS(1)                CellOS Manual                CELL_OS(1)\n\nNAME\n       cell_os \u2014 boot to proof microkernel\n\nSYNOPSIS\n       qemu-system-x86_64 -kernel boot/cell_os.elf\n\nDESCRIPTION\n       Microkernel targeting x86-64 and arm64.\n       Emits a deterministic #E0\u2013#E10 proof chain on every boot.\n       Organelle subsystem models biological process isolation.\n       Fully reproducible via SOURCE_DATE_EPOCH + MANIFEST.\n\nSEE ALSO\n       isol8r(1), libc(1)\n\nAUTHOR\n       Ivan Gaydardzhiev <github.com/gaidardzhiev>'},
+          }},
+        }},
+      }},
+    }},
     var:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
       log:{type:'d',perm:'drwxr-xr-x',own:'root root',size:4096,mtime:'Jan  1 00:00',content:{
-        'cell_os.log':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'[boot] CellOS 0.1.0-proof starting\n[boot] proof chain: emitting #E0\n[boot] proof chain: #E0 OK\n[boot] proof chain: #E1 OK\n[boot] proof chain: #E2 OK\n[boot] proof chain: #E3 OK\n[boot] proof chain: #E4 OK\n[boot] proof chain: #E5 OK\n[boot] proof chain: #E6 OK\n[boot] proof chain: #E7 OK — VERIFIED\n[boot] organelle subsystem: OK\n[boot] isol8r: namespaces isolated\n[boot] system ready'},
-        'proof.log':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'proof_chain_verification_log\n════════════════════════════\n#E0 sha256:4d7e9f2a OK\n#E1 sha256:9f2a1b8c OK\n#E2 sha256:1b8c3e6f OK\n#E3 sha256:3e6f0a2d OK\n#E4 sha256:0a2d5b9c OK\n#E5 sha256:5b9c8e1f OK\n#E6 sha256:8e1f4a7d OK\n#E7 sha256:4a7d2e9b OK\nstatus: VERIFIED\nphenotype: stable'},
+        'cell_os.log':{type:'f',perm:'-rw-r--r--',own:'root root',size:2048,mtime:'Jan  1 00:00',content:'[boot] CellOS 0.1.0-proof starting\n[boot] proof chain: emitting #E0\n[boot] #E0 OK  sha256:4d7e9f2a\n[boot] #E1 OK  sha256:9f2a1b8c\n[boot] #E2 OK  sha256:1b8c3e6f\n[boot] #E3 OK  sha256:3e6f0a2d\n[boot] #E4 OK  sha256:0a2d5b9c\n[boot] #E5 OK  sha256:5b9c8e1f\n[boot] #E6 OK  sha256:8e1f4a7d\n[boot] #E7 OK  sha256:4a7d2e9b\n[boot] #E8 OK  sha256:2e9b7c3d\n[boot] #E9 OK  sha256:7c3d1f6a\n[boot] #E10 OK sha256:1f6a4d7e VERIFIED\n[boot] organelle subsystem: OK\n[boot] isol8r: namespaces isolated\n[boot] system ready'},
+        'proof.log':{type:'f',perm:'-rw-r--r--',own:'root root',size:1024,mtime:'Jan  1 00:00',content:'proof_chain_verification_log\n\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\u2550\n#E0  sha256:4d7e9f2a OK\n#E1  sha256:9f2a1b8c OK\n#E2  sha256:1b8c3e6f OK\n#E3  sha256:3e6f0a2d OK\n#E4  sha256:0a2d5b9c OK\n#E5  sha256:5b9c8e1f OK\n#E6  sha256:8e1f4a7d OK\n#E7  sha256:4a7d2e9b OK\n#E8  sha256:2e9b7c3d OK\n#E9  sha256:7c3d1f6a OK\n#E10 sha256:1f6a4d7e OK\nstatus: VERIFIED\nphenotype: stable\nVERSION: 1.0.0-eukaryote-spine'},
       }},
     }},
   }
@@ -356,14 +383,17 @@ const CMDS={
         const display=v.type==='d'?name+'/':name;
         cols.push({display,cls});
       });
+      
       const W=60;
       let row='';
       cols.forEach((c,i)=>{
         const pad=c.display.padEnd(22);
         row+=pad;
         if((i+1)%3===0||(i+1)===cols.length){
+          
         }
       });
+      
       cols.forEach(c=>println(c.display,c.cls));
     }
   },
@@ -444,6 +474,7 @@ function tabComplete(){
     else if(matches.length>1){println('root@cellOS:'+pathDisplay(CWD)+'# '+val);matches.forEach(m=>println(m));}
     return;
   }
+  
   const base=completing.includes('/')?completing.slice(0,completing.lastIndexOf('/')+1):'';
   const stem=completing.includes('/')?completing.slice(completing.lastIndexOf('/')+1):completing;
   const searchDir=base?resolvePath(CWD,base):CWD;
@@ -491,6 +522,7 @@ UI.addEventListener('keydown',e=>{
 });
 
 function handleCommand(raw){
+  
   if(raw.includes('&&')){
     const parts=raw.split('&&').map(s=>s.trim());
     for(const p of parts){const r=execSingle(p);if(r!==0)return;}
@@ -597,6 +629,38 @@ async function doLogin(){
   UI.focus();
   document.addEventListener('click',()=>UI.focus());
   document.addEventListener('touchend',()=>UI.focus(),{passive:true});
+  const W=[
+    'CellOS 0.1.0-proof — Ivan Gaydardzhiev <github.com/gaidardzhiev>',
+    '════════════════════════════════════════════════════════════',
+    '',
+    'commands:',
+    '  ls [-la] [path]          list directory contents',
+    '  cat <file>               print file to stdout',
+    '  cd <path>                change directory',
+    '  file <path>              identify file type',
+    '  bf <file.bf> [input]     execute brainfuck program',
+    '  man <command>            display manual page',
+    '  readelf <file>           ELF header information',
+    '  ps / whoami / id         process and user info',
+    '  uname [-a]               system information',
+    '  history                  command history',
+    '  clear / Ctrl+L           clear screen',
+    '  exit / logout            reboot system',
+    '',
+    'explore:',
+    '  ls /root/src             — all projects',
+    '  ls /root/books           — published books',
+    '  cat /root/src/<proj>/readme.md',
+    '  bf /root/src/bfelfx64/hello.bf',
+    '  cat /etc/passwd',
+    '  ls -la /root             — hidden files exist',
+    '  cat /proc/cpuinfo        — your hardware',
+    '',
+    'github: https://github.com/gaidardzhiev',
+    '════════════════════════════════════════════════════════════',
+    '',
+  ];
+  for(const l of W)await println(l);
 }
 
 document.addEventListener('keydown',function sk(e){
